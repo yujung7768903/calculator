@@ -1,6 +1,58 @@
 'use strict'
+const numberInput = document.getElementById('progress');
+const percentageButton = document.getElementById('percentage');
+const clearButton = document.getElementById('clear');
+const deleteButton = document.getElementById('delete');
+const divideButton = document.getElementById('divide');
+const multiplyButton = document.getElementById('multiply');
+const addButton = document.getElementById('add');
+const substractionButton = document.getElementById('substraction');
+const totalButton = document.getElementById('total');
+const result = document.getElementById('result')
+
+let total = 0;
+let temp;
+let operator;
+
 function print(num) {
-    let progress = document.getElementById('progress').value;
-    progress = progress + num;
-    document.getElementById('progress').value = progress;
+    if (0 <= num && num <= 9) {
+        numberInput.value = numberInput.value + num;
+    }
+    else if (num === '/' || num === 'x' || num === '+' || num === '-') {
+        operator = num;
+        temp = Number(numberInput.value);
+        numberInput.value = null;
+        console.log(operator)
+    } 
+    else if (num === '%') {
+        console.log('cnffur')
+        total = Number(numberInput.value) / 100;
+        result.innerText = total;
+    }
+    else if (num === 'del') {
+        numberInput.value = numberInput.value.slice(0,-1);
+    }
+    else if (num === 'c') {
+        console.log('33')
+        numberInput.value = null;
+        result.innerText = null;
+    }
 }
+
+totalButton.addEventListener('click', () => {
+    switch (operator) {
+        case '/':
+            total = temp / Number(numberInput.value);
+            break;
+        case 'x':
+            total = temp * Number(numberInput.value);
+            break;
+        case '+':
+            total = temp + Number(numberInput.value);
+            console.log('00');
+            break;
+        default:
+            break;
+    }
+    result.innerText = total;
+});

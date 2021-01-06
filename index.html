@@ -15,33 +15,33 @@
         </section>
     <section id="calculate">
         <div class="button-wrap">
-            <button class="f1__1">%</button>
-            <button class="f1__2">C</button>
-            <button class="f1__3">del</button>
-            <button class="f1__4">/</button>
+            <button id="percentage" onclick="print('%')">%</button>
+            <button id="clear" onclick="print('c')">C</button>
+            <button id="delete" onclick="print('del')">del</button>
+            <button id="divide" onclick="print('/')">/</button>
         </div>
         <div class="button-wrap">
             <button class="f2__1" onclick="print(9)">9</button>
             <button class="f2__2" onclick="print(8)">8</button>
             <button class="f2__3" onclick="print(7)">7</button>
-            <button class="f2__4" onclick="print('x')">x</button>
+            <button id="multiply" onclick="print('x')">x</button>
         </div>
         <div class="button-wrap">
             <button class="f3__1" onclick="print(6)">6</button>
             <button class="f3__2" onclick="print(5)">5</button>
             <button class="f3__3" onclick="print(4)">4</button>
-            <button class="f3__4" onclick="print('+')">+</button>
+            <button id="add" onclick="print('+')">+</button>
         </div>
         <div class="button-wrap">
-            <button class="f4__1">3</button>
-            <button class="f4__2">2</button>
-            <button class="f4__3">1</button>
-            <button class="f4__4">-</button>
+            <button class="f4__1" onclick="print(3)">3</button>
+            <button class="f4__2" onclick="print(2)">2</button>
+            <button class="f4__3" onclick="print(1)">1</button>
+            <button id="subtraction" onclick="print('-')">-</button>
         </div>
         <div class="button-wrap">
-            <button class="f5__1">0</button>
-            <button class="f5__2">.</button>
-            <button class="f5__3">=</button>
+            <button class="f5__1" onclick="print(0)">0</button>
+            <button class="f5__2" onclick="print('.')">.</button>
+            <button id="total">=</button>
         </div>
     </section>
     </div>
