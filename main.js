@@ -10,10 +10,16 @@ const substractionButton = document.getElementById('substraction');
 const totalButton = document.getElementById('total');
 const result = document.getElementById('result')
 
-let total = 0;
+let total;
 let temp;
 let operator;
 
+/*
+temp = '2'+'+'+'4';
+total = (new Function('temp'))();
+console.log(total);
+*/
+/*
 function print(num) {
     if (0 <= num && num <= 9) {
         numberInput.value = numberInput.value + num;
@@ -22,10 +28,8 @@ function print(num) {
         operator = num;
         temp = Number(numberInput.value);
         numberInput.value = null;
-        console.log(operator)
     } 
     else if (num === '%') {
-        console.log('cnffur')
         total = Number(numberInput.value) / 100;
         result.innerText = total;
     }
@@ -33,10 +37,24 @@ function print(num) {
         numberInput.value = numberInput.value.slice(0,-1);
     }
     else if (num === 'c') {
-        console.log('33')
         numberInput.value = null;
         result.innerText = null;
     }
+}
+*/
+function print(num) {
+    if (num === 'del') {
+        numberInput.value = numberInput.value.slice(0,-1);
+    }
+    else if (num === 'c') {
+        numberInput.value = null;
+        result.innerText = null;
+    }
+    else {
+        numberInput.value = numberInput.value + num;
+    }
+    temp = numberInput.value;
+    console.log(`temp = ${temp}, type = ${typeof temp}`)
 }
 
 totalButton.addEventListener('click', () => {
