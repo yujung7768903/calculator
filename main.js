@@ -1,5 +1,6 @@
 'use strict'
 const numberInput = document.getElementById('progress');
+const display = document.getElementById('display')
 const percentageButton = document.getElementById('percentage');
 const clearButton = document.getElementById('clear');
 const deleteButton = document.getElementById('delete');
@@ -13,6 +14,7 @@ const result = document.getElementById('result')
 let total;
 let temp;
 let operator;
+let displayValue;
 
 /*
 temp = '2'+'+'+'4';
@@ -21,17 +23,8 @@ console.log(total);
 */
 /*
 function print(num) {
-    if (0 <= num && num <= 9) {
-        numberInput.value = numberInput.value + num;
-    }
-    else if (num === '/' || num === 'x' || num === '+' || num === '-') {
-        operator = num;
-        temp = Number(numberInput.value);
-        numberInput.value = null;
-    } 
-    else if (num === '%') {
-        total = Number(numberInput.value) / 100;
-        result.innerText = total;
+    if (num === '/' || num === '*' || num === '+' || num === '-'); {
+        //
     }
     else if (num === 'del') {
         numberInput.value = numberInput.value.slice(0,-1);
@@ -40,6 +33,13 @@ function print(num) {
         numberInput.value = null;
         result.innerText = null;
     }
+    else {
+//        temp = numberInput.value;
+        numberInput.value = temp + num;
+//        displayValue = 
+    }    
+    temp = numberInput.value;
+    console.log(`temp = ${temp}, type = ${typeof temp}`);
 }
 */
 function print(num) {
@@ -58,19 +58,6 @@ function print(num) {
 }
 
 totalButton.addEventListener('click', () => {
-    switch (operator) {
-        case '/':
-            total = temp / Number(numberInput.value);
-            break;
-        case 'x':
-            total = temp * Number(numberInput.value);
-            break;
-        case '+':
-            total = temp + Number(numberInput.value);
-            console.log('00');
-            break;
-        default:
-            break;
-    }
+    total = eval(numberInput.value);
     result.innerText = total;
 });
