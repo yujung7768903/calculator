@@ -16,12 +16,7 @@ let temp;
 let operator;
 let displayValue;
 
-/*
-temp = '2'+'+'+'4';
-total = (new Function('temp'))();
-console.log(total);
-*/
-/*
+
 function print(num) {
     if (num === '/' || num === '*' || num === '+' || num === '-'); {
         //
@@ -40,21 +35,6 @@ function print(num) {
     }    
     temp = numberInput.value;
     console.log(`temp = ${temp}, type = ${typeof temp}`);
-}
-*/
-function print(num) {
-    if (num === 'del') {
-        numberInput.value = numberInput.value.slice(0,-1);
-    }
-    else if (num === 'c') {
-        numberInput.value = null;
-        result.innerText = null;
-    }
-    else {
-        numberInput.value = numberInput.value + num;
-    }
-    temp = numberInput.value;
-    console.log(`temp = ${temp}, type = ${typeof temp}`)
 }
 
 totalButton.addEventListener('click', () => {
