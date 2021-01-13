@@ -1,6 +1,6 @@
 'use strict'
-const numberInput = document.getElementById('progress');
-const display = document.getElementById('display')
+const numberInput = document.getElementById('display');
+const progress = document.getElementById('progress')
 const percentageButton = document.getElementById('percentage');
 const clearButton = document.getElementById('clear');
 const deleteButton = document.getElementById('delete');
@@ -13,13 +13,15 @@ const result = document.getElementById('result')
 
 let total;
 let temp;
-let operator;
-let displayValue;
+let operator = "";
+let progressValue;
 
 
 function print(num) {
-    if (num === '/' || num === '*' || num === '+' || num === '-'); {
-        //
+    if (num === '/' || num === '*' || num === '+' || num === '-') {
+        operator = num;
+        progress.innerText = progress.innerText + numberInput.value;
+        numberInput.value = null;
     }
     else if (num === 'del') {
         numberInput.value = numberInput.value.slice(0,-1);
@@ -30,8 +32,8 @@ function print(num) {
     }
     else {
 //        temp = numberInput.value;
-        numberInput.value = temp + num;
-//        displayValue = 
+        numberInput.value = numberInput.value + num;
+//        progressValue = 
     }    
     temp = numberInput.value;
     console.log(`temp = ${temp}, type = ${typeof temp}`);
