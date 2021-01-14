@@ -38,8 +38,37 @@ function print(num) {
     temp = numberInput.value;
     console.log(`temp = ${temp}, type = ${typeof temp}`);
 }
-
 totalButton.addEventListener('click', () => {
-    total = eval(numberInput.value);
-    result.innerText = total;
+    total = numberInput.value;
 });
+
+let exceptPlusArr = [];
+let plusArr = [];
+let exceptDivideArr = [];
+let exceptMultiply = [];
+
+function caculate(total) {
+    let forCaculateArr = total.split('+');
+    forCaculateArr.array.forEach(element => {
+        if (Number(element)==NaN) { // 나누기, 곱하기, 빼기가 들어있는 요소들을 배열에 저장
+            exceptPlusArr.push(element);
+        }
+        else {
+            plusArr.push(element); //양수인 것은 저장
+        }
+    });
+    exceptPlusArr.array.forEach(element => {
+        for(let i = 0; i < element.length ; i--) {
+            if (element[i] == '/' || element[i] == '*') {
+                if (element[i] == '/') {
+                    exceptDivideArr = element.split('/');
+                }
+                else if (element[i] == '*') {
+                    exceptMultiplyelement.split('*');
+                }
+            }
+        }
+    });
+}
+
+console.log(Number('2+4-3'))
