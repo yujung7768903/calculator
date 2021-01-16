@@ -7,7 +7,7 @@
     --white-grey-color : #fcfcfc;
 
     /* font-size */
-    --font-small : 15px;
+    --font-small : 14px;
     --font-medium : 20px;
 }
 
@@ -42,9 +42,10 @@
     position: absolute;
     width: 100%;
     top: 0;
-    bottom: 130px;
+    bottom: 133px;
     left: 0;
     border: 0;
+    padding: 10px;
     font-size: var(--font-small);
     color: var(--grey-color);
 }
@@ -53,17 +54,19 @@
     position: absolute;
     width: 100%;
     height: 60px;
-    bottom: 70px;
+    bottom: 73px;
     background-color: var(--white-grey-color);
     border-style: none;
     border-top: 1px solid var(--grey-color__light);
+    padding: 10px;
+    font-size: var(--font-medium);
 }
 #result {
     position: absolute;
     right: 0;
     bottom: 0;
     left: 0;
-    height: 70px;
+    height: 73px;
     border-top: 1px solid var(--border-color);
     background-color: var(--grey-color__light);
     text-align: right;
