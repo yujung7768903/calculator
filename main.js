@@ -16,21 +16,20 @@ let temp;
 let operator = "";
 let progressValue;
 let inputValueArr = [];
-let lastValue = progress.innerText.slice(-1);
-
 
 function print(num) {
+    let lastValue = progress.innerText.slice(-1);
     if (num === '/' || num === '*' || num === '+' || num === '-' || num === '%') {
-        if (Number(lastValue) == NaN) {
-            progress.innerText = progress.innerText.slice(0,-1) + num;
+        if (Number.isNaN(Number(lastValue))) {
             inputValueArr.pop();
+            progress.innerText = progress.innerText.slice(0,-1) + num;
         }
         else {
             inputValueArr.push(Number(numberInput.value));
+            progress.innerText = progress.innerText + num;
         }
         inputValueArr.push(num);
         numberInput.value = null;
-        progress.innerText = progress.innerText + num;
     }
     else if (num === 'del') {
         progress.innerText = progress.innerText.slice(0,-1);

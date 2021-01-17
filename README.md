@@ -11,7 +11,7 @@
 버튼을 여러 개 누르면 누적하여 출력되어야 하는데, 하나씩만 나오거나 값이 나오지 않는 문제 발생
 - 원인
 1) 요소의 값을 value를 통해 가져와 새로 입력된 값을 더한 후, **innerText를 통하여 input요소의 값을 변경하려 함**
-해당 코드
+기존 코드
 ```
 function print(num) {
     let progress = document.getElementById('progress').value;
@@ -25,3 +25,29 @@ function print(num) {
 - 공부해야 할 부분
 1) DOM에 대한 이해 필요
 2) 이벤트처리
+
+#### 2-2. 연산자를 연속으로 눌렀을 때 => 가장 최근에 눌러진 연산자로 교체
+- 원인
+자바스크립트에서 NaN은 연산(==, ===)를 통해 확인할 수 없음
+slice(-1)을 lastValue 변수에 저장 후, **Number(lastValue) == NaN을 통해 숫자인지 확인하려 함**
+기존 코드
+```
+let lastValue = progress.innerText.slice(-1);
+    if (num === '/' || num === '*' || num === '+' || num === '-' || num === '%') {
+        if (Number(lastValue) == NaN) {
+            console.log(Number(lastValue));
+            inputValueArr.pop();
+            progress.innerText = progress.innerText.slice(0,-1) + num;
+        }
+```
+변경 후
+```
+let lastValue = progress.innerText.slice(-1);
+    if (num === '/' || num === '*' || num === '+' || num === '-' || num === '%') {
+        if (Number.isNaN(Number(lastValue))) {
+            inputValueArr.pop();
+            progress.innerText = progress.innerText.slice(0,-1) + num;
+        }
+```
+- 해결
+1) Number.isNaN()을 통해 NaN인지 확인하고 True일 경우, 배열과 progress에서 마지막 연산자를 지우고 새로운 연산자 추가
