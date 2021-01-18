@@ -49,6 +49,7 @@ function print(num) {
 }
 
 totalButton.addEventListener('click', () => {
+    let lastValue = progress.innerText.slice(-1);
     if (Number(lastValue) === NaN) {
         progress.innerText = progress.innerText.slice(0,-1);
         inputValueArr.pop();
@@ -56,12 +57,13 @@ totalButton.addEventListener('click', () => {
     inputValueArr.push(Number(numberInput.value));
     console.log(inputValueArr);
     inputValueArr.forEach(element => {
+        console.log(element);
         if (element === '/') {
             let idxDiv = inputValueArr.indexOf('/');
             let calDiv = inputValueArr.slice(idxDiv-1,idxDiv+2);
             console.log(calDiv);
             let insteadDiv = calDiv[0] / calDiv[2];
-            inputValueArr.splice(idxDiv-1, 3, insteadDiv);
+            inputValueArr.splice(idxDiv-1, 3, 0, insteadDiv);
             console.log(inputValueArr);
 
         }
@@ -70,9 +72,8 @@ totalButton.addEventListener('click', () => {
             let calMul = inputValueArr.slice(idxMul-1,idxMul+2);
             console.log(calMul);
             let insteadMul = calMul[0] * calMul[2];
-            inputValueArr.splice(idxMul-1, 3, insteadMul);
+            inputValueArr.splice(idxMul-1, 3, 0, insteadMul);
             console.log(inputValueArr);
-
         }    
     });
     inputValueArr.forEach(element => {
@@ -83,7 +84,7 @@ totalButton.addEventListener('click', () => {
             console.log(calSub);
             let insteadSub = calSub[0] - calSub[2];
             console.log(insteadSub);
-            inputValueArr.splice(idxSub-1, 3, insteadSub);
+            inputValueArr.splice(idxSub-1, 3, 0, insteadSub);
             console.log(inputValueArr);
         }
     })
@@ -98,3 +99,4 @@ totalButton.addEventListener('click', () => {
         return sum + currValue;
     }, 0);
 });
+console.log('end');

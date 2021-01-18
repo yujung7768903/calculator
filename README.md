@@ -51,3 +51,37 @@ let lastValue = progress.innerText.slice(-1);
 ```
 - 해결
 1) Number.isNaN()을 통해 NaN인지 확인하고 True일 경우, 배열과 progress에서 마지막 연산자를 지우고 새로운 연산자 추가
+
+#### 2-3. 특정 연산자가 수행되지 않는 문제
+- 원인
+forEach를 통해 계속해서 element가 호출됨. 하지만 '/', '*', '-' 연산 후 배열 변경이 되면서 연산자를 건너뛰는 문제가 발생함
+기존 코드
+```
+inputValueArr.forEach(element => {
+        console.log(element);
+        if (element === '-') {
+            let idxSub = inputValueArr.indexOf('-');
+            let calSub = inputValueArr.slice(idxSub-1,idxSub+2);
+            console.log(calSub);
+            let insteadSub = calSub[0] - calSub[2];
+            console.log(insteadSub);
+            inputValueArr.splice(idxSub-1, 3, insteadSub);
+            console.log(inputValueArr);
+        }
+    })
+```
+변경 후
+```
+inputValueArr.forEach(element => {
+        console.log(element);
+        if (element === '-') {
+            let idxSub = inputValueArr.indexOf('-');
+            let calSub = inputValueArr.slice(idxSub-1,idxSub+2);
+            console.log(calSub);
+            let insteadSub = calSub[0] - calSub[2];
+            console.log(insteadSub);
+            inputValueArr.splice(idxSub-1, 3, 0, insteadSub);
+            console.log(inputValueArr);
+        }
+    })
+```
