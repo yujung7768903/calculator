@@ -1,20 +1,9 @@
 'use strict'
 const numberInput = document.getElementById('display');
 const progress = document.getElementById('progress')
-const percentageButton = document.getElementById('percentage');
-const clearButton = document.getElementById('clear');
-const deleteButton = document.getElementById('delete');
-const divideButton = document.getElementById('divide');
-const multiplyButton = document.getElementById('multOperation');
-const addButton = document.getElementById('add');
-const substractionButton = document.getElementById('substraction');
 const totalButton = document.getElementById('total');
 const result = document.getElementById('result')
 
-let total;
-let temp;
-let operator = "";
-let progressValue;
 let inputValueArr = [];
 
 let idxDiv;
@@ -51,13 +40,12 @@ function print(num) {
         numberInput.value = numberInput.value + num;
         progress.innerText = progress.innerText + num;
     }
-    temp = numberInput.value;
 }
 
 function divOperation() {
     idxDiv = inputValueArr.indexOf('/');
     console.log(inputValueArr);
-    console.log(`인덱스 번호 : ${idxDiv}`);
+    console.log(`나누기 인덱스 번호 : ${idxDiv}`);
     while (idxDiv != -1) {
         let insteadSub = inputValueArr[idxDiv-1] / inputValueArr[idxDiv+1];
         inputValueArr.splice(idxDiv-1, 3, insteadSub);
@@ -70,7 +58,7 @@ function divOperation() {
 
 function multOperation() {
     idxMul = inputValueArr.indexOf('*');
-    console.log(`인덱스 번호 : ${idxMul}`);
+    console.log(`곱하기 인덱스 번호 : ${idxMul}`);
     while (idxMul != -1) {
         let insteadSub = inputValueArr[idxMul-1] * inputValueArr[idxMul+1];
         inputValueArr.splice(idxMul-1, 3, insteadSub);
@@ -85,7 +73,7 @@ function subOperation() {
     idxSub = inputValueArr.indexOf('-');
     console.log('subOperation 함수 수행됨');
     console.log(inputValueArr);
-    console.log(`인덱스 번호 : ${idxSub}`);
+    console.log(`빼기 인덱스 번호 : ${idxSub}`);
     while (idxSub != -1) {
         let insteadSub = inputValueArr[idxSub-1] - inputValueArr[idxSub+1];
         inputValueArr.splice(idxSub-1, 3, insteadSub);
@@ -100,26 +88,27 @@ function subOperation() {
 function dmcompare() {
     console.log('dmcompare 함수 수행됨')
     while (idxDiv != -1 && idxMul != -1){
-        idxDiv = inputValueArr.indexOf('/');
-        idxMul = inputValueArr.indexOf('*');
         if (idxDiv < idxMul) {
             let insteadSub = inputValueArr[idxDiv-1] / inputValueArr[idxDiv+1];
             inputValueArr.splice(idxDiv-1, 3, insteadSub);
-            console.log(`연산 수행 전 인덱스 번호 : ${idxDiv}`);
+            console.log(`연산 수행 전 나누기 인덱스 번호 : ${idxDiv}`);
             console.log('나누기 연산 수행 후');
             //연산 수행 후 배열의 요소와 인덱스 변경됨
             console.log(inputValueArr);
-            idxDiv = inputValueArr.indexOf('/');
         } 
         else {
             let insteadSub = inputValueArr[idxMul-1] * inputValueArr[idxMul+1];
             inputValueArr.splice(idxMul-1, 3, insteadSub);
-            console.log(`연산 수행 전 인덱스 번호 : ${idxMul}`);
+            console.log(`연산 수행 전 곱하기 인덱스 번호 : ${idxMul}`);
             console.log('곱하기 연산 수행 후');
             //연산 수행 후 배열의 요소와 인덱스 변경됨
             console.log(inputValueArr);
-            idxMul = inputValueArr.indexOf('*');
         }
+        //배열 변경 후 인덱스 다시 검색
+        idxDiv = inputValueArr.indexOf('/');
+        idxMul = inputValueArr.indexOf('*');
+
+
     }
     if (idxDiv == -1 && idxMul != -1) {
         //곱하기 연산하기
@@ -133,6 +122,8 @@ function dmcompare() {
 
 function divNmul() {
     console.log('divNmul 함수 수행됨');
+    idxMul = inputValueArr.indexOf('*');
+    idxDiv = inputValueArr.indexOf('/');
     if (idxDiv == -1 && idxMul != -1) {
         //곱하기 연산하기
         multOperation();
@@ -150,7 +141,6 @@ function divNmul() {
 totalButton.addEventListener('click', () => {
     let lastValue = progress.innerText.slice(-1);
     //마지막 값이 연산자인지 확인 후 연산자이면 삭제 후 연산 수행
-    console.log(`lastValue : ${Number(lastValue)}`);
     if (Number.isNaN(Number(lastValue))) {
         progress.innerText = progress.innerText.slice(0,-1);
         inputValueArr.pop();
