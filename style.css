@@ -108,7 +108,11 @@
     }
     
     #output {
-        height: 358px;
+        height: 428px;
         margin : 0 0 0 10px;
+    }
+
+    #display {
+        height: 70px;
     }
 }

@@ -1,15 +1,18 @@
 'use strict'
 const numberInput = document.getElementById('display');
-const progress = document.getElementById('progress')
+const progress = document.getElementById('progress');
+const clearButton = document.getElementById('clear');
 const totalButton = document.getElementById('total');
-const result = document.getElementById('result')
+const result = document.getElementById('result');
 
 let inputValueArr = [];
 
 let idxDiv;
 let idxMul;
 let idxSub;
-
+let idxFirst;
+let idxSecond;
+let firstCalArr;
 
 
 function print(num) {
@@ -85,8 +88,8 @@ function subOperation() {
 }
 
 //곱하기랑 나누기 중 더 앞에 있는 것을 먼저 처리
-function dmcompare() {
-    console.log('dmcompare 함수 수행됨')
+function dmCompare() {
+    console.log('dmCompare 함수 수행됨')
     while (idxDiv != -1 && idxMul != -1){
         if (idxDiv < idxMul) {
             let insteadSub = inputValueArr[idxDiv-1] / inputValueArr[idxDiv+1];
@@ -134,14 +137,30 @@ function divNmul() {
     }
     else if (idxDiv != -1 && idxMul != -1) {
         //인덱스 비교해서 더 앞에 있는 연산자부터 수행하기
-        dmcompare();
+        dmCompare();
     }
 }
+
+function bracketFirst() {
+    idxFirst = inputValueArr.indexOf('(')
+    idxSecond = inputValueArr.indexOf(')')
+    firstCalArr = inputValueArr.slice(idxFirst+1, idxSecond);
+    console.log(`괄호 안 배열 : ${firstCalArr}`);
+}
+
+function clear() {
+    progress.innerText = null;
+    numberInput.value = null;
+    result.innerText = null;
+    inputValueArr = [];
+}
+
+clearButton.addEventListener('click', clear());
 
 totalButton.addEventListener('click', () => {
     let lastValue = progress.innerText.slice(-1);
     //마지막 값이 연산자인지 확인 후 연산자이면 삭제 후 연산 수행
-    if (Number.isNaN(Number(lastValue))) {
+    if (Number.isNaN(Number(lastValue)) && lastValue != ')') {
         progress.innerText = progress.innerText.slice(0,-1);
         inputValueArr.pop();
     }
@@ -150,6 +169,8 @@ totalButton.addEventListener('click', () => {
         inputValueArr.push(Number(numberInput.value));
     }
     console.log(`연산 수행 전 inputValue = ${inputValueArr}`);
+    //괄호 먼저 처리
+    bracketFirst();
     //나누기와 곱하기 처리
     divNmul();
     //빼기 처리
