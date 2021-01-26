@@ -13,12 +13,24 @@ let idxSub;
 let idxFirst;
 let idxSecond;
 let firstCalArr;
-
+let lastValue;
 
 function print(num) {
-    let lastValue = progress.innerText.slice(-1);
-    if (num === '/' || num === '*' || num === '+' || num === '-' || num === '%') {
-        if (Number.isNaN(Number(lastValue))) {
+    lastValue = progress.innerText.slice(-1);
+    if (num === '(') {
+        console.log('firstBracket 함수 수행됨');
+        firstBracket('(');
+    }
+    else if (num === ')') {
+        console.log('secondBracket 함수 수행됨');
+        secondBracket(')');
+    }
+    else if (num === '/' || num === '*' || num === '+' || num === '-' || num === '%') {
+        if (lastValue === ')') {
+            inputValueArr.push(num);
+            progress.innerText = progress.innerText + num;
+        }
+        else if (Number.isNaN(Number(lastValue))) {
             inputValueArr.pop();
             progress.innerText = progress.innerText.slice(0,-1) + num;
         }
@@ -43,6 +55,35 @@ function print(num) {
         numberInput.value = numberInput.value + num;
         progress.innerText = progress.innerText + num;
     }
+}
+
+// '(' 들어 왔을 때
+function firstBracket(value1) {
+    lastValue = progress.innerText.slice(-1);
+    //앞이 숫자면 곱하기 연산자가 있는 것으로 간주
+    if (0 <= Number(lastValue) && Number(lastValue) <= 9) {
+        inputValueArr.push('*', value1);
+    }
+    else {
+        inputValueArr.push(value1);
+    }
+    progress.innerText = progress.innerText + value1;
+}
+
+// ')' 들어 왔을 때
+function secondBracket(value2) {
+    //앞이 연산자일 때 -> 연산자를 지우고 ')'삽입
+    if (Number.isNaN(Number(lastValue))) {
+        inputValueArr.pop();
+        progress.innerText = progress.innerText.slice(0,-1) + value2;
+    }
+    //연산자가 아닌 숫자일 때 
+    else {
+        inputValueArr.push(Number(numberInput.value));
+        progress.innerText = progress.innerText + value2;
+    }
+    inputValueArr.push(value2);
+    numberInput.value = null;
 }
 
 function divOperation() {
@@ -147,15 +188,6 @@ function bracketFirst() {
     firstCalArr = inputValueArr.slice(idxFirst+1, idxSecond);
     console.log(`괄호 안 배열 : ${firstCalArr}`);
 }
-
-function clear() {
-    progress.innerText = null;
-    numberInput.value = null;
-    result.innerText = null;
-    inputValueArr = [];
-}
-
-clearButton.addEventListener('click', clear());
 
 totalButton.addEventListener('click', () => {
     let lastValue = progress.innerText.slice(-1);
