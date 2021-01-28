@@ -20,10 +20,12 @@ function print(num) {
     if (num === '(') {
         console.log('firstBracket 함수 수행됨');
         firstBracket('(');
+        console.log(`(입력 후 배열 : ${inputValueArr}`);
     }
     else if (num === ')') {
         console.log('secondBracket 함수 수행됨');
         secondBracket(')');
+        console.log(`)입력 후 배열 : ${inputValueArr}`);
     }
     else if (num === '/' || num === '*' || num === '+' || num === '-' || num === '%') {
         if (lastValue === ')') {
@@ -62,7 +64,8 @@ function firstBracket(value1) {
     lastValue = progress.innerText.slice(-1);
     //앞이 숫자면 곱하기 연산자가 있는 것으로 간주
     if (0 <= Number(lastValue) && Number(lastValue) <= 9) {
-        inputValueArr.push('*', value1);
+        inputValueArr.push(Number(numberInput.value),'*', value1);
+        numberInput.value = null;
     }
     else {
         inputValueArr.push(value1);
@@ -182,11 +185,15 @@ function divNmul() {
     }
 }
 
+//괄호 안 배열 먼저 계산하는 함수
 function bracketFirst() {
-    idxFirst = inputValueArr.indexOf('(')
-    idxSecond = inputValueArr.indexOf(')')
+    idxFirst = inputValueArr.indexOf('(');
+    idxSecond = inputValueArr.indexOf(')');
     firstCalArr = inputValueArr.slice(idxFirst+1, idxSecond);
+    inputValueArr.splice(idxFirst,1);
+    inputValueArr.splice(idxSecond-1,1);
     console.log(`괄호 안 배열 : ${firstCalArr}`);
+
 }
 
 totalButton.addEventListener('click', () => {
