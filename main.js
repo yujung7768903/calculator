@@ -89,99 +89,97 @@ function secondBracket(value2) {
     numberInput.value = null;
 }
 
-function divOperation() {
-    idxDiv = inputValueArr.indexOf('/');
-    console.log(inputValueArr);
+function divOperation(arr) {
+    idxDiv = arr.indexOf('/');
+    console.log(arr);
     console.log(`나누기 인덱스 번호 : ${idxDiv}`);
     while (idxDiv != -1) {
-        let insteadSub = inputValueArr[idxDiv-1] / inputValueArr[idxDiv+1];
-        inputValueArr.splice(idxDiv-1, 3, insteadSub);
+        let insteadSub = arr[idxDiv-1] / arr[idxDiv+1];
+        arr.splice(idxDiv-1, 3, insteadSub);
         console.log('나누기 연산 수행 후');
-        console.log(inputValueArr);
-        idxDiv = inputValueArr.indexOf('/');
+        console.log(arr);
+        idxDiv = arr.indexOf('/');
         console.log(`인덱스 번호 : ${idxDiv}`);
     }
 }
 
-function multOperation() {
-    idxMul = inputValueArr.indexOf('*');
+function multOperation(arr) {
+    idxMul = arr.indexOf('*');
     console.log(`곱하기 인덱스 번호 : ${idxMul}`);
     while (idxMul != -1) {
-        let insteadSub = inputValueArr[idxMul-1] * inputValueArr[idxMul+1];
-        inputValueArr.splice(idxMul-1, 3, insteadSub);
+        let insteadSub = arr[idxMul-1] * arr[idxMul+1];
+        arr.splice(idxMul-1, 3, insteadSub);
         console.log('곱하기 연산 수행 후');
-        console.log(inputValueArr);
-        idxMul = inputValueArr.indexOf('*');
+        console.log(arr);
+        idxMul = arr.indexOf('*');
         console.log(`인덱스 번호 : ${idxMul}`);
     }
 }
 
-function subOperation() {
-    idxSub = inputValueArr.indexOf('-');
+function subOperation(arr) {
+    idxSub = arr.indexOf('-');
     console.log('subOperation 함수 수행됨');
-    console.log(inputValueArr);
+    console.log(arr);
     console.log(`빼기 인덱스 번호 : ${idxSub}`);
     while (idxSub != -1) {
-        let insteadSub = inputValueArr[idxSub-1] - inputValueArr[idxSub+1];
-        inputValueArr.splice(idxSub-1, 3, insteadSub);
+        let insteadSub = arr[idxSub-1] - arr[idxSub+1];
+        arr.splice(idxSub-1, 3, insteadSub);
         console.log('빼기 연산 수행 후');
-        console.log(inputValueArr);
-        idxSub = inputValueArr.indexOf('-');
+        console.log(arr);
+        idxSub = arr.indexOf('-');
         console.log(`인덱스 번호 : ${idxSub}`);
     }
 }
 
 //곱하기랑 나누기 중 더 앞에 있는 것을 먼저 처리
-function dmCompare() {
+function dmCompare(arr) {
     console.log('dmCompare 함수 수행됨')
     while (idxDiv != -1 && idxMul != -1){
         if (idxDiv < idxMul) {
-            let insteadSub = inputValueArr[idxDiv-1] / inputValueArr[idxDiv+1];
-            inputValueArr.splice(idxDiv-1, 3, insteadSub);
+            let insteadSub = arr[idxDiv-1] / arr[idxDiv+1];
+            let newArr = arr.splice(idxDiv-1, 3, insteadSub);
             console.log(`연산 수행 전 나누기 인덱스 번호 : ${idxDiv}`);
             console.log('나누기 연산 수행 후');
             //연산 수행 후 배열의 요소와 인덱스 변경됨
-            console.log(inputValueArr);
+            console.log(newArr);
         } 
         else {
-            let insteadSub = inputValueArr[idxMul-1] * inputValueArr[idxMul+1];
-            inputValueArr.splice(idxMul-1, 3, insteadSub);
+            let insteadSub = arr[idxMul-1] * arr[idxMul+1];
+            let newArr arr.splice(idxMul-1, 3, insteadSub);
             console.log(`연산 수행 전 곱하기 인덱스 번호 : ${idxMul}`);
             console.log('곱하기 연산 수행 후');
             //연산 수행 후 배열의 요소와 인덱스 변경됨
-            console.log(inputValueArr);
+            console.log(arr);
         }
         //배열 변경 후 인덱스 다시 검색
-        idxDiv = inputValueArr.indexOf('/');
-        idxMul = inputValueArr.indexOf('*');
-
-
+        idxDiv = arr.indexOf('/');
+        idxMul = arr.indexOf('*');
     }
     if (idxDiv == -1 && idxMul != -1) {
         //곱하기 연산하기
-        multOperation();
+        multOperation(arr);
     }
     else if (idxDiv != -1 && idxMul == -1) {
         //나누기 연산하기
-        divOperation();
+        divOperation(arr);
     }
 }
 
-function divNmul() {
+function divNmul(arr) {
     console.log('divNmul 함수 수행됨');
-    idxMul = inputValueArr.indexOf('*');
-    idxDiv = inputValueArr.indexOf('/');
+    idxMul = arr.indexOf('*');
+    idxDiv = arr.indexOf('/');
     if (idxDiv == -1 && idxMul != -1) {
         //곱하기 연산하기
-        multOperation();
+        multOperation(arr);
     }
     else if (idxDiv != -1 && idxMul == -1) {
         //나누기 연산하기
-        divOperation();
+        divOperation(arr);
     }
     else if (idxDiv != -1 && idxMul != -1) {
         //인덱스 비교해서 더 앞에 있는 연산자부터 수행하기
-        dmCompare();
+        dmCompare(arr);
     }
 }
 
