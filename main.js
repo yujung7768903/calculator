@@ -6,6 +6,8 @@ const totalButton = document.getElementById('total');
 const result = document.getElementById('result');
 
 let inputValueArr = [];
+//나누기와 곱하기 수행 후 값들이 담기게 될 배열
+let resultArr = [];
 
 let idxDiv;
 let idxMul;
@@ -64,7 +66,7 @@ function firstBracket(value1) {
     lastValue = progress.innerText.slice(-1);
     //앞이 숫자면 곱하기 연산자가 있는 것으로 간주
     if (0 <= Number(lastValue) && Number(lastValue) <= 9) {
-        inputValueArr.push(Number(numberInput.value),'*', value1);
+        inputValueArr.push(Number(numberInput.value), value1);
         numberInput.value = null;
     }
     else {
@@ -89,109 +91,145 @@ function secondBracket(value2) {
     numberInput.value = null;
 }
 
-function divOperation(arr) {
-    idxDiv = arr.indexOf('/');
-    console.log(arr);
+function divOperation(beforeArr) {
+    let calArr = beforeArr;
+    idxDiv = calArr.indexOf('/');
     console.log(`나누기 인덱스 번호 : ${idxDiv}`);
     while (idxDiv != -1) {
-        let insteadSub = arr[idxDiv-1] / arr[idxDiv+1];
-        arr.splice(idxDiv-1, 3, insteadSub);
+        let insteadSub = calArr[idxDiv-1] / calArr[idxDiv+1];
+        calArr.splice(idxDiv-1, 3, insteadSub);
         console.log('나누기 연산 수행 후');
-        console.log(arr);
-        idxDiv = arr.indexOf('/');
+        console.log(calArr);
+        idxDiv = calArr.indexOf('/');
         console.log(`인덱스 번호 : ${idxDiv}`);
     }
+    resultArr = calArr;
 }
 
-function multOperation(arr) {
-    idxMul = arr.indexOf('*');
+function multOperation(beforeArr) {
+    let calArr = beforeArr;
+    idxMul = calArr.indexOf('*');
     console.log(`곱하기 인덱스 번호 : ${idxMul}`);
     while (idxMul != -1) {
-        let insteadSub = arr[idxMul-1] * arr[idxMul+1];
-        arr.splice(idxMul-1, 3, insteadSub);
+        let insteadSub = calArr[idxMul-1] * calArr[idxMul+1];
+        calArr.splice(idxMul-1, 3, insteadSub);
         console.log('곱하기 연산 수행 후');
-        console.log(arr);
-        idxMul = arr.indexOf('*');
+        console.log(calArr);
+        idxMul = calArr.indexOf('*');
         console.log(`인덱스 번호 : ${idxMul}`);
     }
+    resultArr = calArr;
 }
 
-function subOperation(arr) {
-    idxSub = arr.indexOf('-');
+function subOperation(beforeArr) {
+    let calArr = beforeArr;
+    idxSub = calArr.indexOf('-');
     console.log('subOperation 함수 수행됨');
-    console.log(arr);
+    console.log(calArr);
     console.log(`빼기 인덱스 번호 : ${idxSub}`);
     while (idxSub != -1) {
-        let insteadSub = arr[idxSub-1] - arr[idxSub+1];
-        arr.splice(idxSub-1, 3, insteadSub);
+        let insteadSub = calArr[idxSub-1] - calArr[idxSub+1];
+        calArr.splice(idxSub-1, 3, insteadSub);
         console.log('빼기 연산 수행 후');
-        console.log(arr);
-        idxSub = arr.indexOf('-');
+        console.log(calArr);
+        idxSub = calArr.indexOf('-');
         console.log(`인덱스 번호 : ${idxSub}`);
     }
+    resultArr = calArr;
 }
 
 //곱하기랑 나누기 중 더 앞에 있는 것을 먼저 처리
-function dmCompare(arr) {
-    console.log('dmCompare 함수 수행됨')
+function dmCompare(beforeArr) {
+    console.log('dmCompare 함수 수행됨');
+    let calArr = beforeArr;
     while (idxDiv != -1 && idxMul != -1){
         if (idxDiv < idxMul) {
-            let insteadSub = arr[idxDiv-1] / arr[idxDiv+1];
-            let newArr = arr.splice(idxDiv-1, 3, insteadSub);
+            let insteadSub = calArr[idxDiv-1] / calArr[idxDiv+1];
+            calArr.splice(idxDiv-1, 3, insteadSub);
             console.log(`연산 수행 전 나누기 인덱스 번호 : ${idxDiv}`);
             console.log('나누기 연산 수행 후');
             //연산 수행 후 배열의 요소와 인덱스 변경됨
-            console.log(newArr);
+            console.log(calArr);
         } 
         else {
-            let insteadSub = arr[idxMul-1] * arr[idxMul+1];
-            let newArr arr.splice(idxMul-1, 3, insteadSub);
+            let insteadSub = calArr[idxMul-1] * calArr[idxMul+1];
+            calArr.splice(idxMul-1, 3, insteadSub);
             console.log(`연산 수행 전 곱하기 인덱스 번호 : ${idxMul}`);
             console.log('곱하기 연산 수행 후');
             //연산 수행 후 배열의 요소와 인덱스 변경됨
-            console.log(arr);
+            console.log(calArr);
         }
         //배열 변경 후 인덱스 다시 검색
-        idxDiv = arr.indexOf('/');
-        idxMul = arr.indexOf('*');
+        idxDiv = calArr.indexOf('/');
+        idxMul = calArr.indexOf('*');
     }
     if (idxDiv == -1 && idxMul != -1) {
         //곱하기 연산하기
-        multOperation(arr);
+        multOperation(calArr);
     }
     else if (idxDiv != -1 && idxMul == -1) {
         //나누기 연산하기
-        divOperation(arr);
+        divOperation(calArr);
     }
 }
 
-function divNmul(arr) {
+function divNmul(beforeArr) {
     console.log('divNmul 함수 수행됨');
-    idxMul = arr.indexOf('*');
-    idxDiv = arr.indexOf('/');
+    console.log(beforeArr);
+    idxMul = beforeArr.indexOf('*');
+    idxDiv = beforeArr.indexOf('/');
     if (idxDiv == -1 && idxMul != -1) {
         //곱하기 연산하기
-        multOperation(arr);
+        multOperation(beforeArr);
     }
     else if (idxDiv != -1 && idxMul == -1) {
         //나누기 연산하기
-        divOperation(arr);
+        divOperation(beforeArr);
     }
     else if (idxDiv != -1 && idxMul != -1) {
         //인덱스 비교해서 더 앞에 있는 연산자부터 수행하기
-        dmCompare(arr);
+        dmCompare(beforeArr);
+    }
+    else {
+        //나누기와 곱하기가 없을 때
+        //빼기의 파라미터 값으로 넣을 resultArr는 처음 들어왔던 그대로 beforeArr 유지
+        resultArr = beforeArr;
     }
 }
 
 //괄호 안 배열 먼저 계산하는 함수
 function bracketFirst() {
+    //괄호 앞에 바로 숫자가 있을 경우 괄호 안을 먼저 계산하고 그 후에 곱하기로 처리
+    let multipleNum;
+    console.log(inputValueArr[idxFirst-1]);
+    console.log((Number(inputValueArr[idxFirst-1])));
+    if (typeof(Number(inputValueArr[idxFirst-1])) == "number") {
+        multipleNum = Number(inputValueArr[idxFirst-1]);
+        console.log(multipleNum);
+        inputValueArr.splice(idxFirst-1, 1);
+    }
     idxFirst = inputValueArr.indexOf('(');
     idxSecond = inputValueArr.indexOf(')');
+    //먼저 계산할 괄호 안 배열 firstCalArr
     firstCalArr = inputValueArr.slice(idxFirst+1, idxSecond);
-    inputValueArr.splice(idxFirst,1);
-    inputValueArr.splice(idxSecond-1,1);
     console.log(`괄호 안 배열 : ${firstCalArr}`);
-
+    divNmul(firstCalArr);
+    subOperation(resultArr);
+    console.log(`괄호 안의 값 계산 결과 = ${resultArr}`);
+    resultArr.forEach(element => {
+        if (element === '+') {
+            let idxPlu = resultArr.indexOf('+');
+            resultArr.splice(idxPlu,1);
+            console.log(resultArr);
+        }
+    })
+    let afterBracket = resultArr.reduce(function add(sum, currValue){
+        return sum + currValue;
+    }, 0);
+    //괄호 안의 값을 지우고 계산한 결과 넣기
+    let removeNum = idxSecond - idxFirst + 1;
+    inputValueArr.splice(idxFirst, removeNum, multipleNum*afterBracket);
+    console.log(`괄호 값 계산 후 inputvalueArr = ${inputValueArr}`);
 }
 
 totalButton.addEventListener('click', () => {
@@ -207,21 +245,25 @@ totalButton.addEventListener('click', () => {
     }
     console.log(`연산 수행 전 inputValue = ${inputValueArr}`);
     //괄호 먼저 처리
-    bracketFirst();
+    idxFirst = inputValueArr.indexOf('(');
+    idxSecond = inputValueArr.indexOf(')');
+    if (idxFirst != -1) {
+        bracketFirst(inputValueArr);
+    }
     //나누기와 곱하기 처리
-    divNmul();
+    divNmul(inputValueArr);
     //빼기 처리
-    subOperation();
-    console.log(`연산 수행 후 inputValue = ${inputValueArr}`);
+    subOperation(resultArr);
+    console.log(`연산 수행 후 배열 = ${resultArr}`);
     //더하기 처리
-    inputValueArr.forEach(element => {
+    resultArr.forEach(element => {
         if (element === '+') {
-            let idxPlu = inputValueArr.indexOf('+');
-            inputValueArr.splice(idxPlu,1);
-            console.log(inputValueArr);
+            let idxPlu = resultArr.indexOf('+');
+            resultArr.splice(idxPlu,1);
+            console.log(resultArr);
         }
     })
-    result.innerText = inputValueArr.reduce(function add(sum, currValue){
+    result.innerText = resultArr.reduce(function add(sum, currValue){
         return sum + currValue;
     }, 0);
 });
