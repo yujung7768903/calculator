@@ -30,10 +30,12 @@ function print(num) {
         console.log(`)입력 후 배열 : ${inputValueArr}`);
     }
     else if (num === '/' || num === '*' || num === '+' || num === '-' || num === '%') {
+        //연산자가 연속으로 입력이 되면 마지막에 입력된 연산자만 취급한다. 
+        //하지만 )뒤에는 유일하게 연산자가 올 수 있다.
         if (lastValue === ')') {
-            inputValueArr.push(num);
             progress.innerText = progress.innerText + num;
         }
+        //입력하는 연산자 앞에 이미 연산자가 있으면 새로 입력된 연산자로 교체
         else if (Number.isNaN(Number(lastValue))) {
             inputValueArr.pop();
             progress.innerText = progress.innerText.slice(0,-1) + num;
@@ -48,6 +50,7 @@ function print(num) {
     else if (num === 'del') {
         progress.innerText = progress.innerText.slice(0,-1);
         numberInput.value = numberInput.value.slice(0,-1);
+        inputValueArr.pop();
     }
     else if (num === 'c') {
         progress.innerText = null;
@@ -200,36 +203,42 @@ function divNmul(beforeArr) {
 //괄호 안 배열 먼저 계산하는 함수
 function bracketFirst() {
     //괄호 앞에 바로 숫자가 있을 경우 괄호 안을 먼저 계산하고 그 후에 곱하기로 처리
-    let multipleNum;
-    console.log(inputValueArr[idxFirst-1]);
-    console.log((Number(inputValueArr[idxFirst-1])));
-    if (typeof(Number(inputValueArr[idxFirst-1])) == "number") {
-        multipleNum = Number(inputValueArr[idxFirst-1]);
-        console.log(multipleNum);
-        inputValueArr.splice(idxFirst-1, 1);
+    let multipleNum = 1;
+    //'('괄호 앞에 연산자가 있는 경우에는 true, 숫자가 있는 경우에는 false
+    while (idxFirst != -1 && idxSecond != -1) {
+        let trueorFalse = Number.isNaN(Number(inputValueArr[idxFirst-1])); 
+        console.log(inputValueArr[idxFirst-1]);
+        console.log((Number(inputValueArr[idxFirst-1])));
+        if (trueorFalse === false) {
+            multipleNum = Number(inputValueArr[idxFirst-1]);
+            console.log(multipleNum);
+            inputValueArr.splice(idxFirst-1, 1);
+            idxFirst = inputValueArr.indexOf('(');
+            idxSecond = inputValueArr.indexOf(')');
+        }   
+        //먼저 계산할 괄호 안 배열 firstCalArr
+        firstCalArr = inputValueArr.slice(idxFirst+1, idxSecond);
+        console.log(`괄호 안 배열 : ${firstCalArr}`);
+        divNmul(firstCalArr);
+        subOperation(resultArr);
+        console.log(`괄호 안 나누기, 곱하기, 빼기 후의 배열 = ${resultArr}`);
+        resultArr.forEach(element => {
+            if (element === '+') {
+                let idxPlu = resultArr.indexOf('+');
+                resultArr.splice(idxPlu,1);
+                console.log(resultArr);
+            }
+        })
+        let afterBracket = resultArr.reduce(function add(sum, currValue){
+            return sum + currValue;
+        }, 0);
+        //괄호 안의 값을 지우고 계산한 결과 넣기
+        let removeNum = idxSecond - idxFirst + 1;
+        inputValueArr.splice(idxFirst, removeNum, multipleNum * afterBracket);
+        console.log(`괄호 값 계산 후 inputvalueArr = ${inputValueArr}`);
+        idxFirst = inputValueArr.indexOf('(');
+        idxSecond = inputValueArr.indexOf(')');
     }
-    idxFirst = inputValueArr.indexOf('(');
-    idxSecond = inputValueArr.indexOf(')');
-    //먼저 계산할 괄호 안 배열 firstCalArr
-    firstCalArr = inputValueArr.slice(idxFirst+1, idxSecond);
-    console.log(`괄호 안 배열 : ${firstCalArr}`);
-    divNmul(firstCalArr);
-    subOperation(resultArr);
-    console.log(`괄호 안의 값 계산 결과 = ${resultArr}`);
-    resultArr.forEach(element => {
-        if (element === '+') {
-            let idxPlu = resultArr.indexOf('+');
-            resultArr.splice(idxPlu,1);
-            console.log(resultArr);
-        }
-    })
-    let afterBracket = resultArr.reduce(function add(sum, currValue){
-        return sum + currValue;
-    }, 0);
-    //괄호 안의 값을 지우고 계산한 결과 넣기
-    let removeNum = idxSecond - idxFirst + 1;
-    inputValueArr.splice(idxFirst, removeNum, multipleNum*afterBracket);
-    console.log(`괄호 값 계산 후 inputvalueArr = ${inputValueArr}`);
 }
 
 totalButton.addEventListener('click', () => {
